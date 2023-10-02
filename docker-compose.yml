@@ -1,0 +1,36 @@
+version: '2'
+services:
+  mysql:
+    image: mysql:5.7.42-debian
+    # image: mysql:8.0.34-debian
+    environment:
+      - MYSQL_ROOT_PASSWORD=changeme
+      - MYSQL_DATABASE=moodle
+      - MYSQL_USER=moodle
+      - MYSQL_PASSWORD=changeme
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+  moodle:
+    build: ./
+    image: moodle-demo-moodle:311
+    # image: moodle-demo-moodle:402
+    volumes:
+      - ./moodle_data:/var/www/moodledata
+      - ./config.php:/var/www/html/config.php:ro
+    depends_on:
+      - mysql
+    ports:
+      - 80:80
+  cron:
+    build: ./
+    image: moodle-demo-cron:311
+    # image: moodle-demo-cron:402
+    volumes:
+      - ./moodle_data:/var/www/moodledata
+      - ./config.php:/var/www/html/config.php:ro
+    command: ["cron","-f"]
+    depends_on:
+      - mysql
+  redis:
+    image: redis:7.0.13-alpine
+    # image: redis:7.2.1-alpine
