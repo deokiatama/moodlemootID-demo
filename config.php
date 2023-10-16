@@ -46,7 +46,7 @@ $CFG->dboptions = array(
                                 // mode).
 );
 
-$CFG->wwwroot   = 'http://43.133.159.208';
+$CFG->wwwroot   = 'http://localhost';
 $CFG->dataroot  = '/var/www/moodledata';
 $CFG->directorypermissions = 0777;
 $CFG->admin = 'admin';
